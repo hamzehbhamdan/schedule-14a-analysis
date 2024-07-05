@@ -1,7 +1,7 @@
 import streamlit as st
 from sched14a import get_sched14a_df
 from extractdata import extract_lite_data_gpt
-from datetime import datetime, timedelta
+from datetime import datetime
 import pandas as pd
 
 api_key = "APIKEY"
