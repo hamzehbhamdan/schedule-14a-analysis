@@ -1,13 +1,9 @@
 streamlit==1.36.0
-datetime
 requests==2.32.3
 pandas==2.2.2
 numpy==1.26.4
 beautifulsoup4==4.12.3
 urllib3==2.2.1
-re
 openai==1.35.3
 tiktoken==0.7.0
 scipy==1.13.1
-json
-time
