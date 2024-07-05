@@ -1,12 +1,7 @@
 import streamlit as st
 from sched14a import get_sched14a_df
 from extractdata import extract_full_data_gpt
-from datetime import datetime, timedelta
-import pandas as pd
-from dotenv import load_dotenv
-import os
-
-load_dotenv()
+from datetime import datetime
 
 col_names = {'file': 'File', 'ticker': 'Ticker', 'title': 'Company Name', 'filingDate': 'Filing Date', 'form': 'Form', 'primaryDocDescription': 'Document Description', 'cik': 'CIK', 'accessionNumber': 'Accession Number', 'fileNumber': 'File Number', 'filmNumber': 'Film Number', 'reportDate': 'Report Date'}
 
