@@ -1,7 +1,6 @@
 from ratelimiter import RateLimiter
 from edgar import *
 from extractdata import get_text_and_images
-import re
 
 rate_limiter = RateLimiter(10, 1)
 s = requests.Session()
