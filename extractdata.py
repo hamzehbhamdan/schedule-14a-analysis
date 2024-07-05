@@ -160,20 +160,18 @@ def extract_lite_data_gpt(url, chunk_size=1024, overlap=256, return_json=False, 
     structured_data = simplified_request.choices[0].message.content.strip()
     return structured_data
 
-def extract_full_data_gpt(url, chunk_size=1024, overlap=256, embedding_model='text-embedding-3-large', llm_model='gpt-4o', single_shot=True, headers={'User-Agent': 'hamzehhamdan@college.harvard.edu'}, api_key='APIKEY'):
+def extract_full_data_gpt(url, query, api_key, chunk_size=1024, overlap=256, embedding_model='text-embedding-3-large', llm_model='gpt-4o', single_shot=True, headers={'User-Agent': 'hamzehhamdan@college.harvard.edu'}):
     result = get_text_and_images(url, headers)
     if result == None:
         return f'ERROR WITH URL {url}'
     else:
         text = result[0]
-        images = result[1]
         tables = result[2]
 
     text = '\n'.join([text_item for text_item in text.split('\n') if bool(re.search(r'\d', text_item))])
     tables= [table for table in tables if bool(re.search(r'\d', table) and not re.search(r'\b2024\b|\b20\s24\b', table))]
 
     all_data = " ".join(text.split('\n') + (tables))
-
     client = OpenAI(api_key=api_key)
     text = all_data.replace("\n", " ")
     text_chunks = []
@@ -192,33 +190,12 @@ def extract_full_data_gpt(url, chunk_size=1024, overlap=256, embedding_model='te
     })
 
     if single_shot==True:
-        query_text = f"""What were the bonus targets for the company? This is often reported in some financial metric for the company like EBITDA, Revenue, FCF, but can include other company-specific metrics.
 
-        I would like you to return the following data from the proxy statement above.
-
-        CEO name:
-        Year covered:
-
-        Bonus Weight from Financial Metrics (total, with a breakdown with each metric):
-        Bonus Weight Non-Financial:
-
-        Proxy Target for each metric (single value, in dollars).
-        Proxy Actual for each metric (single value, in dollars).
-        Financial Achievement Percentage for each metric.
-
-        Financial-Metric Achievement % (one value):
-        Non-Financial Achievement % (one value):
-
-        Bonus Payout $:
-        Total Compensation $:
-
-        Refrain from making any calculations. Only report what is found in the report; if something is not in the report, write NA. Please only return the data for the CEO."""
-
-        strings, relatednesses = strings_ranked_by_relatedness(query_text, df, top_n=100)
+        strings, relatednesses = strings_ranked_by_relatedness(query, df, top_n=100, api_key=api_key)
 
         conversation = [
             {"role": "system", "content": "You are an expert financial analyst. Your task is to help me analyze Schedule 14A files and piece together executive compensation."},
-            {"role": "user", "content": "Query: " + query_text + "\n Relevant texts:" + ' '.join(strings)}
+            {"role": "user", "content": "Query: " + query + "\n Relevant texts:" + ' '.join(strings)}
         ]
 
         completion = client.chat.completions.create(
@@ -252,7 +229,7 @@ def extract_full_data_gpt(url, chunk_size=1024, overlap=256, embedding_model='te
 
         Please only return the names of the metrics used. You should also consolidate them (i.e. FCF and Adjusted FCF should be in one category). Your response should be one sentence with comma separated metrics."""
 
-        strings, relatednesses = strings_ranked_by_relatedness(query_text_1, df, top_n=50)
+        strings, relatednesses = strings_ranked_by_relatedness(query_text_1, df, top_n=50, api_key=api_key)
 
         conversation_1 = [
             {"role": "system", "content": "You are an expert financial analyst. Your task is to help me analyze Schedule 14A files and piece together executive compensation. Your goal is to return the metrics used for determining the bonus of the CEO. There should be 2-4 of them."},
