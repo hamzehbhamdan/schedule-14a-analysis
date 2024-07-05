@@ -25,7 +25,7 @@ def main():
             tickers_input = st.text_input("Company Ticker", value='CMCSA')
         with col2:
             year = st.selectbox("Year Filed", years, index=0)
-        api_key = st.text_input("OpenAI API Key")
+        api_key = st.text_input("OpenAI API Key").strip()
         query = st.text_area("ChatGPT Request", value=f"""What were the bonus targets for the company? This is often reported in some financial metric for the company like EBITDA, Revenue, FCF, but can include other company-specific metrics.
 
 I would like you to return the following data from the proxy statement above.
@@ -76,7 +76,7 @@ Refrain from making any calculations. Only report what is found in the report; i
 
                 st.write('Generating an AI summary of the file above. This may take a few minutes.')
 
-                data = extract_full_data_gpt(df.loc[0, 'File'], api_key=api_key)
+                data = extract_full_data_gpt(df.loc[0, 'File'], query=query, api_key=api_key)
                 st.markdown(data)
 
             else:
