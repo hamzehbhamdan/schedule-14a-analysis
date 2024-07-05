@@ -2,18 +2,11 @@ import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
 import pandas as pd
-from PIL import Image
-import pytesseract
-from io import BytesIO
 import re
-import faiss
-from sentence_transformers import SentenceTransformer
 from openai import OpenAI
 import tiktoken
 from scipy import spatial
 import json
-
-pytesseract.pytesseract.tesseract_cmd = 'C:\\Users\\hhamda818@corphq.Comcast.com\AppData\\Local\\Programs\\Tesseract-OCR\\tesseract'
 
 def get_text_and_images(url, headers):
     response = requests.get(url, headers=headers)
@@ -39,21 +32,6 @@ def get_text_and_images(url, headers):
                 tables.append(table_text)
     
     return text, images, tables
-
-def images_to_text(images_list, headers):
-    results = []
-
-    for image_url in images_list:
-        response = requests.get(image_url, headers=headers)
-        if response.status_code == 200:
-            img = Image.open(BytesIO(response.content))
-            text = pytesseract.image_to_string(img)
-        else:
-            print(f"Failed to retrieve the image. Status code: {response.status_code}")
-        if text:
-            results.append(text)
-
-    return results
 
 def count_tokens(text, model="gpt-3.5-turbo"):
     encoding = tiktoken.encoding_for_model(model)
