@@ -49,7 +49,9 @@ Total Compensation $:
 Refrain from making any calculations. Only report what is found in the report; if something is not in the report, write NA. Please only return the data for the CEO.""")
 
         if st.button("Get Schedule 14A Links"):
-            if tickers_input:
+            if not api_key:
+                st.error("Please enter your OpenAI Key.")
+            elif tickers_input:
                 tickers = [ticker.strip() for ticker in tickers_input.split(",")]
                 email = st.session_state.email
                 df = get_sched14a_df(tickers, year, year, email)
