@@ -78,7 +78,7 @@ Refrain from making any calculations. Only report what is found in the report; i
 
                 st.write('Generating an AI summary of the file above. This may take a few minutes.')
 
-                data = extract_full_data_gpt(df.loc[0, 'File'], query=query, api_key=api_key)
+                data = extract_full_data_gpt(df.loc[0, 'File'], query=query, api_key=api_key, headers={'User-Agent': st.session_state.email})
                 st.markdown(data)
 
             else:
