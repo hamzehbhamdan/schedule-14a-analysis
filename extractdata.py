@@ -59,7 +59,7 @@ def strings_ranked_by_relatedness(
     strings, relatednesses = zip(*strings_and_relatednesses)
     return strings[:top_n], relatednesses[:top_n]
 
-def extract_lite_data_gpt(url, chunk_size=1024, overlap=256, return_json=False, embedding_model='text-embedding-3-large', llm_model='gpt-4o', headers={'User-Agent': 'hamzehhamdan@college.harvard.edu'}, api_key='APIKEY'):
+def extract_lite_data_gpt(url, chunk_size=1024, overlap=256, return_json=False, embedding_model='text-embedding-3-large', llm_model='gpt-4o', headers="ENTER EMAIL", api_key='APIKEY'):
     url = url.rsplit('/', 1)[0] + "/R2.htm"
     result = get_text_and_images(url, headers)
     if result == None:
@@ -160,7 +160,7 @@ def extract_lite_data_gpt(url, chunk_size=1024, overlap=256, return_json=False, 
     structured_data = simplified_request.choices[0].message.content.strip()
     return structured_data
 
-def extract_full_data_gpt(url, query, api_key, chunk_size=1024, overlap=256, embedding_model='text-embedding-3-large', llm_model='gpt-4o', single_shot=True, headers={'User-Agent': 'hamzehhamdan@college.harvard.edu'}):
+def extract_full_data_gpt(url, query, api_key, chunk_size=1024, overlap=256, embedding_model='text-embedding-3-large', llm_model='gpt-4o', single_shot=True, headers="ENTER EMAIL"):
     result = get_text_and_images(url, headers)
     if result == None:
         return f'ERROR WITH URL {url}'
