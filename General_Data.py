@@ -65,10 +65,10 @@ def main():
                     df['Total Compensation'] = 'NA'
                     df['Metrics'] = 'NA'
 
-                    df['Notes'] = df['File'].apply(lambda x: extract_lite_data_gpt(x, api_key=api_key, return_json=True))
+                    df['Notes'] = df['File'].apply(lambda x: extract_lite_data_gpt(x, api_key=api_key, return_json=True, headers={'User-Agent': st.session_state.email}))
 
                     for idx, row in df.iterrows():
-                        data = extract_lite_data_gpt(row['File'], api_key=api_key, return_json=True)
+                        data = extract_lite_data_gpt(row['File'], api_key=api_key, return_json=True, headers={'User-Agent': st.session_state.email})
                         lines = []
                         for key, value in data.items():
                             if isinstance(value, list):
