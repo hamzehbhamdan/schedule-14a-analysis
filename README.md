@@ -12,4 +12,4 @@ The AI summarizer section takes in an OpenAI API Key and runs an editable preset
 
 ## Demo
 
-Demo available [here](https://schedule-14a-analysis.streamlit.app/).
+View a live demo [here](https://schedule-14a-analysis.streamlit.app/).
