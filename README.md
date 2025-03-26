@@ -6,7 +6,11 @@ This Streamlit app fetches Schedule 14a filings (Proxy Statements) for any compa
 
 ## Page Descriptions
 
+### Main Page
+
 The main page gives the link to the documents, as well as a link to a summary section that typically includes information on executive compensation (available for more recent documents).
+
+### AI Summarizer
 
 The AI summarizer section takes in an OpenAI API Key and runs an editable preset prompt that extracts information on the structure of the compensation programs. Note that this can be a bit quite slow—I developed this as a project then decided that a chatbot would be more helpful.
 
